@@ -8,7 +8,7 @@ namespace TrashCollectionApp.Models
 {
     public class Customer
     {
-        [K*ey]
+        [Key]
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
