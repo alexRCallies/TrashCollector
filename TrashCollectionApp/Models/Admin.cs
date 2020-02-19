@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace TrashCollectionApp.Models
 {
-    public class Employee
+    public class Admin : User
     {
         [Key]
-        private int id = 2;
+        private int id = 0;
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int ZipCode { get; set; }
+        
     }
 }
