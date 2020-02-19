@@ -19,6 +19,10 @@ namespace TrashCollectionApp.Data
             base.OnModelCreating(builder);
             builder.Entity<IdentityRole>()
                 .HasData(new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" });
+            builder.Entity<IdentityRole>()
+                .HasData(new IdentityRole { Name = "Customer", NormalizedName = "CUSTOMER" });
+            builder.Entity<IdentityRole>()
+                .HasData(new IdentityRole { Name = "Employee", NormalizedName = "EMPLOYEE" });
         }
         public DbSet<Employee> employees { get; set; }
        public DbSet<Customer> customers { get; set; }
