@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TrashCollectionApp.Data;
 using TrashCollectionApp.Models;
 
 namespace TrashCollectionApp.Controllers
@@ -12,7 +14,7 @@ namespace TrashCollectionApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        private readonly ApplicationDbContext _context;
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -20,7 +22,25 @@ namespace TrashCollectionApp.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if (User.IsInRole("Customer"))
+            {
+                if (User == null)
+                {
+                    return RedirectToAction("Create", "Customers");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            else if (User.IsInRole("Employee"))
+            {
+                return RedirectToAction("Create", "Employees");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public IActionResult Privacy()
