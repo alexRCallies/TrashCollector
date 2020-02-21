@@ -30,12 +30,19 @@ namespace TrashCollectionApp.Controllers
                 }
                 else
                 {
-                    return View();
+                    return RedirectToAction("Index", "Customers");
                 }
             }
             else if (User.IsInRole("Employee"))
             {
-                return RedirectToAction("Create", "Employees");
+                if (User == null)
+                {
+                    return RedirectToAction("Create", "Employees");
+                }
+                else
+                {
+                    return View();
+                }
             }
             else
             {

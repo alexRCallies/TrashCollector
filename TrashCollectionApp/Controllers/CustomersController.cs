@@ -22,21 +22,25 @@ namespace TrashCollectionApp.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.customers.ToListAsync());
+            
+           var customer = _context.customers.FirstOrDefault(m=> m.IdentityUserId == id)
+            var IdentityUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            customer.IdentityUserId = IdentityUserId;
+            return View(customer.IdentityUserId);
         }
 
         // GET: Customers/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.customers
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var customer = _context.customers
+                .FirstOrDefault(m => m.IdentityUserId == id);
             if (customer == null)
             {
                 return NotFound();
