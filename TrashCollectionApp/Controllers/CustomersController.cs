@@ -15,23 +15,20 @@ namespace TrashCollectionApp.Controllers
     public class CustomersController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public CustomersController(ApplicationDbContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+        public CustomersController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: Customers
-        public IActionResult Index()
+        public async Task<IActionResult> Index(Customer customer)
         {
-            
-           var customer = _context.customers.FirstOrDefault(m=> m.IdentityUserId == id)
-            var IdentityUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            customer.IdentityUserId = IdentityUserId;
-            return View(customer.IdentityUserId);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            customer.IdentityUserId = userId;
+            var customerInfo = _context.customers.Where(c => c.IdentityUserId == userId);
+            return View(await customerInfo.ToListAsync());
         }
-
-        // GET: Customers/Details/5
         public IActionResult Details(string id)
         {
             if (id == null)
