@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrashCollectionApp.Data;
 
-namespace TrashCollectionApp.Data.Migrations
+namespace TrashCollectionApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200219200411_RoleCheck2")]
-    partial class RoleCheck2
+    [Migration("20200221215637_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,22 +50,22 @@ namespace TrashCollectionApp.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4f215ea6-d483-4792-9406-e0c63732ebac",
-                            ConcurrencyStamp = "2d4f24c5-c0a6-4606-895f-74f052300ce2",
+                            Id = "0818a58e-d81f-4256-a94f-b6239d86d2a7",
+                            ConcurrencyStamp = "0a85b076-6265-4689-8d8e-4c321b0486ec",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2505ff0b-d14a-4a30-9b61-96b9b38c6914",
-                            ConcurrencyStamp = "d9ffcc31-b029-4e08-910b-194e4361424a",
+                            Id = "9860f6b6-e0f5-4317-bc8d-a54ce450ab33",
+                            ConcurrencyStamp = "0388b82e-7236-41ca-9ed1-822cab701bca",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "42419994-4fb9-4723-be5d-e854cc329fc8",
-                            ConcurrencyStamp = "6851dd19-6637-4ae6-a309-d09eed67d4c8",
+                            Id = "3775b14f-38d7-4464-a5ed-d67ae834717f",
+                            ConcurrencyStamp = "65d8209d-51fb-40a4-b524-2c2b09ba8830",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });

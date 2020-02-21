@@ -18,17 +18,20 @@ namespace TrashCollectionApp.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, ApplicationDbContext context)
         {
             _logger = logger;
             _userManager = userManager;
+            _context = context;
         }
 
         public IActionResult Index()
         {
             if (User.IsInRole("Customer"))
             {
-                if (User == null)
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var customerInfo = _context.customers.Where(c => c.IdentityUserId == userId).FirstOrDefault();
+                if (customerInfo == null)
                 {
                     return RedirectToAction("Create", "Customers");
                 }
