@@ -32,13 +32,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Balance)
-            </th>
+            </th
+          
             <th>
                 @Html.DisplayNameFor(model => model.PickUpDay)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdentityUser)
-            </th>
+           
             <th></th>
         </tr>
     </thead>
@@ -69,15 +68,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PickUpDay)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
-            </td>
+           
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                <a asp-action="Change_Pickup_Day" asp-route-id="@item.Id">ChangePickUpDay</a>
-                <a asp-action="PayBalance" asp-route-id="@item.id">Pay Balance</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                <a asp-action="Change_Pickup_Day" asp-route-id="@item.Id">Change_Pickup_Day</a> |
+                <a asp-action="PayBalance" asp-route-id="@item.Id.">Pay Balance</a>
             </td>
         </tr>
 }

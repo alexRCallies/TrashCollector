@@ -22,28 +22,18 @@ namespace TrashCollectionApp.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(Customer customer)
+        public IActionResult Index(Customer customer)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            customer.IdentityUserId = userId;
+           //customer.IdentityUserId = userId;
             var customerInfo = _context.customers.Where(c => c.IdentityUserId == userId);
-            return View(await customerInfo.ToListAsync());
+            return View(customerInfo.ToList());
         }
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(Customer customer)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.customers
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return View(customer);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var hero = _context.customers.Where(x => x.IdentityUserId == userId).FirstOrDefault();
+                return View(hero);
         }
 
         // GET: Customers/Create
@@ -57,7 +47,7 @@ namespace TrashCollectionApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Customer customer, IdentityUser user)
+        public IActionResult Create( Customer customer, IdentityUser user)
         {
             if (ModelState.IsValid)
             {
@@ -65,22 +55,17 @@ namespace TrashCollectionApp.Controllers
                 customer.IdentityUserId = IdentityUserId;
                 customer.Balance = 7;
                 _context.Add(customer);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details));
             }
             return View(customer);
         }
 
         // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.customers.FindAsync(id);
+            var customer = _context.customers.Find(id);
             if (customer == null)
             {
                 return NotFound();
@@ -93,36 +78,22 @@ namespace TrashCollectionApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StreetAddress,City,State,ZipCode,Balance,PickUpDay")] Customer customer)
+        public IActionResult Edit(int id, Customer customer)
         {
-            if (id != customer.Id)
+            try
             {
-                return NotFound();
-            }
+                var IdentityUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                customer.IdentityUserId = IdentityUserId;
+                _context.customers.Update(customer);
+                _context.SaveChanges();
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(customer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details));
             }
-            return View(customer);
+            catch
+            {
+                return View();
+            }
         }
-
         // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -149,7 +120,7 @@ namespace TrashCollectionApp.Controllers
             var customer = await _context.customers.FindAsync(id);
             _context.customers.Remove(customer);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Details));
         }
 
         private bool CustomerExists(int id)
@@ -187,10 +158,7 @@ namespace TrashCollectionApp.Controllers
             {
                 try
                 {
-                    if(customer.OneTimePickup == true)
-                    {
-                        customer.Balance += 5;
-                    }
+                   
                     _context.Update(customer);
                     await _context.SaveChangesAsync();
                 }
@@ -205,7 +173,7 @@ namespace TrashCollectionApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details));
             }
             return View(customer);
         }
@@ -254,7 +222,7 @@ namespace TrashCollectionApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details));
             }
             return View(customer);
         }

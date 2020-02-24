@@ -186,7 +186,8 @@ namespace TrashCollectionApp.Migrations
                     State = table.Column<string>(nullable: true),
                     ZipCode = table.Column<int>(nullable: false),
                     Balance = table.Column<int>(nullable: false),
-                    PickUpDay = table.Column<string>(nullable: true),
+                    OneTimePickupDay = table.Column<int>(nullable: false),
+                    PickUpDay = table.Column<int>(nullable: false),
                     IdentityUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -225,17 +226,17 @@ namespace TrashCollectionApp.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "0818a58e-d81f-4256-a94f-b6239d86d2a7", "0a85b076-6265-4689-8d8e-4c321b0486ec", "Admin", "ADMIN" });
+                values: new object[] { "74e3b670-ff2f-4be1-b849-26a9bbd34d6c", "bf8b94ba-5835-4eb0-b484-e86dcfb98dec", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "9860f6b6-e0f5-4317-bc8d-a54ce450ab33", "0388b82e-7236-41ca-9ed1-822cab701bca", "Customer", "CUSTOMER" });
+                values: new object[] { "6cd3b825-5ac6-425a-86cf-f894d3aa5856", "0abad20a-0c66-4169-9d10-865530cc6bfa", "Customer", "CUSTOMER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "3775b14f-38d7-4464-a5ed-d67ae834717f", "65d8209d-51fb-40a4-b524-2c2b09ba8830", "Employee", "EMPLOYEE" });
+                values: new object[] { "1c588a41-d1de-44b3-aedb-53a66c6e9c8b", "97cc30fb-41da-4eac-9633-28ddcb80f58b", "Employee", "EMPLOYEE" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Admin_IdentityUserId",
