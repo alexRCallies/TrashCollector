@@ -187,6 +187,10 @@ namespace TrashCollectionApp.Controllers
             {
                 try
                 {
+                    if(customer.OneTimePickup == true)
+                    {
+                        customer.Balance += 5;
+                    }
                     _context.Update(customer);
                     await _context.SaveChangesAsync();
                 }

@@ -59,6 +59,14 @@
                 <span asp-validation-for="IdentityUserId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <div class="checkbox">
+                    <label asp-for="OneTimePickup">
+                        <input asp-for="OneTimePickup" />
+                       One Time Pick Up?
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
