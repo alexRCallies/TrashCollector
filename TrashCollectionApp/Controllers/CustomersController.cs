@@ -22,18 +22,17 @@ namespace TrashCollectionApp.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index(Customer customer)
+        public IActionResult Details1(Customer customer)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-           //customer.IdentityUserId = userId;
-            var customerInfo = _context.customers.Where(c => c.IdentityUserId == userId);
-            return View(customerInfo.ToList());
+            var customer1 = _context.customers.Where(x => x.IdentityUserId == userId).FirstOrDefault();
+            return View(customer1);
         }
-        public IActionResult Details(Customer customer)
+            public IActionResult Details(Customer customer)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var hero = _context.customers.Where(x => x.IdentityUserId == userId).FirstOrDefault();
-                return View(hero);
+            var customer2 = _context.customers.Where(x => x.IdentityUserId == userId).FirstOrDefault();
+                return View(customer2);
         }
 
         // GET: Customers/Create
@@ -147,7 +146,7 @@ namespace TrashCollectionApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Change_Pickup_Day(int id, Customer customer)
+        public IActionResult Change_Pickup_Day(int id, Customer customer)
         {
             if (id != customer.Id)
             {
@@ -156,24 +155,19 @@ namespace TrashCollectionApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+               
+                if (customer.OneTimePickupDay.ToString() == "Sunday")
                 {
-                   
+
+                    return RedirectToAction(nameof(Details));
+                }
+                else
+                {
+                    customer.Balance += 5;
                     _context.Update(customer);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
+                    return RedirectToAction(nameof(Details1));
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(customer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Details));
             }
             return View(customer);
         }
