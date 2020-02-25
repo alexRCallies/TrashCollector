@@ -44,9 +44,18 @@ namespace TrashCollectionApp.Controllers
 
             else if (User.IsInRole("Employee"))
             {
-                if (User == null)
+                if (User.IsInRole("Employee"))
                 {
-                    return RedirectToAction("Create", "Employees");
+                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var employeeInfo = _context.customers.Where(c => c.IdentityUserId == userId).FirstOrDefault();
+                    if (employeeInfo == null)
+                    {
+                        return RedirectToAction("Create", "Employees");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Employees");
+                    }
                 }
                 else
                 {

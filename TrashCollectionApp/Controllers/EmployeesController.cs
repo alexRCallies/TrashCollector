@@ -15,34 +15,28 @@ namespace TrashCollectionApp.Controllers
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public EmployeesController(ApplicationDbContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+        public EmployeesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index()
+        public IActionResult GoToWork()
         {
-            return View(await _context.employees.ToListAsync());
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee2 = _context.employees.Where(x => x.IdentityUserId == userId).FirstOrDefault();
+            var JobsByZip = _context.customers.Where(x => x.ZipCode == employee2.ZipCode);
+            return View(JobsByZip);
         }
 
         // GET: Employees/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(Employee employee)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var employee = await _context.employees
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return View(employee);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee2 = _context.employees.Where(x => x.IdentityUserId == userId).FirstOrDefault();
+            return View(employee2);
         }
 
         // GET: Employees/Create
@@ -64,7 +58,7 @@ namespace TrashCollectionApp.Controllers
                 employee.IdentityUserId = IdentityUserId;
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(GoToWork));
             }
             return View(employee);
         }

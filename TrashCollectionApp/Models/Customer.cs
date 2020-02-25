@@ -19,7 +19,7 @@ namespace TrashCollectionApp.Models
         public string State { get; set; }
         public int ZipCode { get; set; }
         public int Balance { get; set; }
-       
+       public bool IsPickedUp { get; set; }
         public DayOfWeek OneTimePickupDay { get; set; }
         public DayOfWeek PickUpDay { get; set; }
         [ForeignKey("IdentityUser")]
